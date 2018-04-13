@@ -22,7 +22,7 @@
     - { role: rhn }
 
     # # prepare all hosts for installation
-    # - { role: prepare } 
+    - { role: prepare } 
 
     # # let it rip!
     # - { role: install }
