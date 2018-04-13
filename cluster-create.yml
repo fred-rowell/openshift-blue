@@ -15,14 +15,14 @@
     # create and add DNS entries
     - { role: dns}
 
-    # create and copy SSH keys
-    - { role: keys }    
+    # # create and copy SSH keys
+    # - { role: keys }    
 
-    # register with subscription manager
-    - { role: rhn }
+    # # register with subscription manager
+    # - { role: rhn }
 
-    # prepare all hosts for installation
-    - { role: prepare } 
+    # # prepare all hosts for installation
+    # - { role: prepare } 
 
-    # let it rip!
-    - { role: install }
+    # # let it rip!
+    # - { role: install }
