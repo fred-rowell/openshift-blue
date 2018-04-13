@@ -6,6 +6,7 @@
     number: 1
     state: present
   with_items: "{{ hostvars[inventory_hostname]['nfs-volumes'] }}"
+  when: inventory_hostname in groups['masters']
 
 - name: Create filesystem
   become: true
@@ -13,6 +14,7 @@
     fstype: xfs
     dev: "{{ item.device }}1"
   with_items: "{{ hostvars[inventory_hostname]['nfs-volumes'] }}"
+  when: inventory_hostname in groups['masters']
 
 - name: Mount device
   become: true
@@ -22,6 +24,7 @@
     fstype: xfs
     state: mounted
   with_items: "{{ hostvars[inventory_hostname]['nfs-volumes'] }}"  
+  when: inventory_hostname in groups['masters']
 
 - name: Copy hosts template file
   become: true
@@ -33,25 +36,25 @@
     mode: 0644
   when: inventory_hostname == groups['masters'][0]
 
+- name: Configure htpasswd for authentication
+  become: true
+  htpasswd:
+    path: /etc/origin/master/htpasswd
+    name: "{{ ocp_user }}"
+    password: "{{ ocp_pass }}"
+    state: present
+    create: yes
+  when: inventory_hostname == groups['masters'][0]
+
 - name: Run OpenShift flight check
   shell: ansible-playbook -i /etc/ansible/hosts -e deprecation_warnings=False /usr/share/ansible/openshift-ansible/playbooks/prerequisites.yml
-  when: inventory_hostname == groups['masters'][0]
+  when: inventory_hostname == groups[ 'masters'][0]
   ignore_errors: True
 
 # - name: Install OpenShift unattended
 #   shell: ansible-playbook -i /etc/ansible/hosts -e deprecation_warnings=False /usr/share/ansible/openshift-ansible/playbooks/deploy_cluster.yml
 #   when: inventory_hostname == groups['masters'][0]
 #   ignore_errors: True
-
-# - name: Configure htpasswd for authentication
-#   become: true
-#   htpasswd:
-#     path: /etc/origin/master/htpasswd
-#     name: "{{ ocp_user }}"
-#     password: "{{ ocp_pass }}"
-#     state: present
-#     create: yes
-#   when: inventory_hostname == groups['masters'][0]
 
 # - name: Setup {{ ocp_user }} as a cluster-admin and generate the management token
 #   when: inventory_hostname == groups['masters'][0]
