@@ -3,7 +3,7 @@
 nfs-volumes:
   - name: pv
     size: 10
-    device: /dev/vds
+    device: /dev/vdf
     mountpoint: /exports/pv
     label: pv
     dir: data
