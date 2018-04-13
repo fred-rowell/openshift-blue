@@ -50,8 +50,8 @@
     src: resolv.conf.j2
     dest: /etc/resolv.conf    
 
-- name: Restart network service
-  become: True
-  service:
-    name: network
-    state: restarted      
+# - name: Restart network service
+#   become: True
+#   service:
+#     name: network
+#     state: restarted      
