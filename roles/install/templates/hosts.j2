@@ -4,7 +4,7 @@ masters
 nodes
 etcd
 nfs
-glusterfs
+#glusterfs
 
 # Set variables common for all OSEv3 hosts
 [OSEv3:vars]
@@ -100,10 +100,10 @@ openshift_{{ vol.name }}_storage_class='{{ vol.class }}'
 {{ etcd }}.{{ domain }}
 {% endfor %}
 
-[glusterfs]
-{% for brick in groups['gluster'] %}
-{{ brick }}.{{ domain }}
-{% endfor %}
+# [glusterfs]
+# {% for brick in groups['gluster'] %}
+# {{ brick }}.{{ domain }}
+# {% endfor %}
 
 # host group for nodes, includes region info
 [nodes]
