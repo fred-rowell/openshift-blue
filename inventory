@@ -10,6 +10,8 @@
 [nfs]
 10.11.95.155.nip.io
 
+[gluster]
+
 # Uncomment if a new node is needed in the cluster
 # [newnodes]
 # 192.168.76.21.nip.io    region=primary    zone=east
