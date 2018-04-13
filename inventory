@@ -1,11 +1,11 @@
 [masters]
-10.11.95.155.nip.io    region=infra      zone=default    ansible_default_ipv4=10.11.95.155
+10.11.95.155.nip.io    region=infra      zone=default
 
 [etcd]
 192.168.76.18.nip.io   region=infra      zone=default
 
 [nodes]
-192.168.76.15.nip.io    region=primary    zone=east      
+192.168.76.15.nip.io   region=primary    zone=east      
 
 [nfs]
 10.11.95.155.nip.io
