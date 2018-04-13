@@ -35,9 +35,4 @@ nfs-volumes:
     mountpoint: /exports/hosted_registry
     label: registry
     dir: data
-  - name: storage
-    size: 50
-    device: /dev/vdf
-    mountpoint: /exports/storage
-    label: storage
-    dir: data
+

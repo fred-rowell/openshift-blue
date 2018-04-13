@@ -6,7 +6,8 @@
     number: 1
     state: present
   with_items: "{{ hostvars[inventory_hostname]['nfs-volumes'] }}"
-  when: inventory_hostname in groups['masters']
+  when: inventory_hostname in groups['masters'] or
+        inventory_hostname in groups['nfs']
 
 - name: Create filesystem
   become: true
@@ -14,7 +15,8 @@
     fstype: xfs
     dev: "{{ item.device }}1"
   with_items: "{{ hostvars[inventory_hostname]['nfs-volumes'] }}"
-  when: inventory_hostname in groups['masters']
+  when: inventory_hostname in groups['masters'] or
+        inventory_hostname in groups['nfs']
 
 - name: Mount device
   become: true
@@ -24,7 +26,8 @@
     fstype: xfs
     state: mounted
   with_items: "{{ hostvars[inventory_hostname]['nfs-volumes'] }}"  
-  when: inventory_hostname in groups['masters']
+  when: inventory_hostname in groups['masters'] or
+        inventory_hostname in groups['nfs']
 
 - name: Copy hosts template file
   become: true

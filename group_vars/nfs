@@ -1,7 +1,9 @@
 ---
 # OpenShift volumes. Size is specified in Gi
-docker-volumes:
-  - name: docker
-    size: 100
-    device: /dev/vdb
-
+nfs-volumes:
+  - name: pv
+    size: 10
+    device: /dev/vds
+    mountpoint: /exports/pv
+    label: pv
+    dir: data
