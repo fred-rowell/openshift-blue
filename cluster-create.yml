@@ -25,4 +25,4 @@
     - { role: prepare } 
 
     # # let it rip!
-    # - { role: install }
+    - { role: install }
