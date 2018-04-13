@@ -1,0 +1,7 @@
+---
+# OpenShift volumes. Size is specified in Gi
+docker-volumes:
+  - name: docker
+    size: 100
+    device: /dev/vdb
+

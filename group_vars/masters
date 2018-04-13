@@ -1,0 +1,41 @@
+---
+# Docker storage is kept separate for easy consumption
+docker-volumes:
+  - name: docker
+    size: 100
+    device: /dev/vdb
+
+# OpenShift volumes that will be NFS-mounted. Size is specified in Gi
+# A volume can have other attributes (see hosts.j2 in the install role)
+# my-volumes:
+#   - name: foo
+#     size: 1
+#     device: /dev/vda
+#     mountpoint: /exports/bar
+#     dir: zar
+#     label: myvol
+#     type: pvc
+#
+nfs-volumes:
+  - name: metrics
+    size: 15
+    device: /dev/vdc
+    mountpoint: /exports/metrics
+    label: metrics
+    dir: data
+  - name: logging
+    size: 15
+    device: /dev/vdd
+    mountpoint: /exports/logging
+    label: logging
+    dir: data
+  - name: hosted_registry
+    size: 30
+    device: /dev/vde
+    mountpoint: /exports/hosted_registry
+    label: registry
+    dir: data
+  - name: storage
+    size: 50
+    device: /dev/vdf
+    mountpoint: /exports/storage

@@ -1,0 +1,112 @@
+# Create an OSEv3 group that contains the masters and nodes groups
+[OSEv3:children]
+masters
+nodes
+etcd
+nfs
+glusterfs
+
+# Set variables common for all OSEv3 hosts
+[OSEv3:vars]
+# If ansible_ssh_user is not root, ansible_become must be set to true
+ansible_become=true
+
+# SSH user, this user should allow ssh based auth without requiring a password
+ansible_ssh_user={{ ansible_user }}
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+
+openshift_master_cluster_method=native
+openshift_master_cluster_hostname=master.redhatdemolab.com
+openshift_master_cluster_public_hostname=master.redhatdemolab.com
+
+# OpenShift vars
+openshift_release=v{{ version }}
+openshift_clock_enabled=true
+openshift_deployment_type=openshift-enterprise
+openshift_master_default_subdomain=apps.{{ hostvars[groups['masters'][0]]['ansible_default_ipv4'] }}.{{ domain }}
+
+# Disable Mem check for lab environments
+openshift_disable_check=memory_availability
+
+# Cockpit
+osm_use_cockpit=true
+osm_cockpit_plugins=['cockpit-kubernetes']
+
+# Enable cluster metrics
+openshift_metrics_install_metrics=true
+openshift_metrics_cassandra_storage_type=dynamic
+openshift_metrics_hawkular_hostname=hawkular.apps.{{ hostvars[groups['masters'][0]]['ansible_default_ipv4'] }}.{{ domain }}
+openshift_metrics_image_version=v3.9.14
+openshift_metrics_hawkular_nodeselector={'region': 'infra'}
+openshift_metrics_cassandra_nodeselector={'region': 'infra'}
+openshift_metrics_heapster_nodeselector={'region': 'infra'}
+
+# Logging
+openshift_logging_install_logging=true
+openshift_logging_es_cluster_size=1
+openshift_logging_es_memory_limit=2Gi
+
+# Registry
+openshift_hosted_manage_router=true
+openshift_hosted_manage_registry=true
+
+# Service broker
+openshift_template_service_broker_namespaces=['openshift']
+openshift_enable_service_catalog=true
+template_service_broker_install=true
+ansible_service_broker_local_registry_whitelist=['.*-apb$']
+
+# Default selectors
+openshift_hosted_router_selector='region=infra'
+openshift_hosted_registry_selector='region=infra'
+osm_default_node_selector="region={{ hostvars[groups['nodes'][0]]['region'] }}"
+openshift_install_examples=true
+openshift_docker_insecure_registries=172.30.0.0/16
+
+# Htpasswd authentication
+openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
+
+# we are going to iterate over the volumes of the first master since that is what we are using in the [nfs] group below
+{% for vol in hostvars[groups['masters'][0]]['nfs-volumes'] %}
+openshift_{{ vol.name }}_storage_kind=nfs
+openshift_{{ vol.name }}_storage_access_modes=['ReadWriteOnce']
+openshift_{{ vol.name }}_storage_nfs_options='*(rw,root_squash)'
+openshift_{{ vol.name }}_storage_nfs_directory={{ vol.mountpoint }}
+openshift_{{ vol.name }}_storage_volume_name={{ vol.dir }}
+openshift_{{ vol.name }}_storage_volume_size={{ vol.size }}Gi
+openshift_{{ vol.name }}_storage_labels={'storage': '{{ vol.label }}'}
+{% if vol.type is defined %}
+openshift_{{ vol.name }}_storage_type='{{ vol.type }}'
+{% endif %}
+{% if vol.class is defined %}
+openshift_{{ vol.name }}_storage_class='{{ vol.class }}'
+{% endif %}
+
+{% endfor %}
+
+# host group for masters
+[masters]
+{% for master in groups['masters'] %}
+{{ master }}.{{ domain }}
+{% endfor %}
+
+[nfs]
+{% for master in groups['nfs'] %}
+{{ master }}.{{ domain }}
+{% endfor %}
+
+[etcd]
+{% for etcd in groups['etcd'] %}
+{{ etcd }}.{{ domain }}
+{% endfor %}
+
+[glusterfs]
+{% for brick in groups['gluster'] %}
+{{ brick }}.{{ domain }}
+{% endfor %}
+
+# host group for nodes, includes region info
+[nodes]
+{% for node in (groups['masters'] + groups['nodes']) %}
+{{ node }}.{{ domain }} openshift_node_labels="{'region': '{{ hostvars[node]['region'] }}', 'zone': '{{ hostvars[node]['zone'] }}'}" openshift_schedulable=true
+{% endfor %}
