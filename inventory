@@ -2,10 +2,10 @@
 10.11.95.155    region=infra      zone=default
 
 [etcd]
-192.168.76.21   region=infra      zone=default
+192.168.76.18   region=infra      zone=default
 
 [nodes]
-192.168.76.15   region=primary    zone=east      
+192.168.76.20   region=primary    zone=east      
 
 [nfs]
 10.11.95.155
