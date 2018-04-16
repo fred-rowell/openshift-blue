@@ -15,14 +15,14 @@ ansible_ssh_user={{ ansible_user }}
 ansible_ssh_common_args='-o StrictHostKeyChecking=no'
 
 openshift_master_cluster_method=native
-openshift_master_cluster_hostname={{ hostvars[groups['masters'][0]]['inventory_hostname'] }}
-openshift_master_cluster_public_hostname={{ hostvars[groups['masters'][0]]['inventory_hostname'] }}
+openshift_master_cluster_hostname={{ hostvars[groups['masters'][0]]['inventory_hostname'] }}.{{ domain }}
+openshift_master_cluster_public_hostname={{ hostvars[groups['masters'][0]]['inventory_hostname'] }}.{{ domain }}
 
 # OpenShift vars
 openshift_release=v{{ version }}
 openshift_clock_enabled=true
 openshift_deployment_type=openshift-enterprise
-openshift_master_default_subdomain=apps.{{ hostvars[groups['masters'][0]]['inventory_hostname'] }}
+openshift_master_default_subdomain=apps.{{ hostvars[groups['masters'][0]]['inventory_hostname'] }}.{{ domain }}
 
 # Disable Mem check for lab environments
 openshift_disable_check=memory_availability
@@ -34,7 +34,7 @@ osm_cockpit_plugins=['cockpit-kubernetes']
 # Enable cluster metrics
 openshift_metrics_install_metrics=true
 openshift_metrics_cassandra_storage_type=dynamic
-openshift_metrics_hawkular_hostname=hawkular.apps.{{ hostvars[groups['masters'][0]]['inventory_hostname'] }}
+openshift_metrics_hawkular_hostname=hawkular.apps.{{ hostvars[groups['masters'][0]]['inventory_hostname'] }}.{{ domain }}
 openshift_metrics_image_version=v3.9.14
 openshift_metrics_hawkular_nodeselector={'region': 'infra'}
 openshift_metrics_cassandra_nodeselector={'region': 'infra'}
