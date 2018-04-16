@@ -16,7 +16,7 @@ docker-volumes:
 #     label: myvol
 #     type: pvc
 #
-nfs-volumes:
+ocp-storage:
   - name: metrics
     size: 15
     device: /dev/vdc

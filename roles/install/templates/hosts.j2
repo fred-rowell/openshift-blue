@@ -66,7 +66,7 @@ openshift_docker_insecure_registries=172.30.0.0/16
 openshift_master_identity_providers=[{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider', 'filename': '/etc/origin/master/htpasswd'}]
 
 # we are going to iterate over the volumes of the first master since that is what we are using in the [nfs] group below
-{% for vol in hostvars[groups['masters'][0]]['nfs-volumes'] %}
+{% for vol in hostvars[groups['masters'][0]]['ocp-storage'] %}
 openshift_{{ vol.name }}_storage_kind=nfs
 openshift_{{ vol.name }}_storage_access_modes=['ReadWriteOnce']
 openshift_{{ vol.name }}_storage_nfs_options='*(rw,root_squash)'
