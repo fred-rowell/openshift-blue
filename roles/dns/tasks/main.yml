@@ -42,7 +42,7 @@
 - name: Set hostname
   become: true
   hostname:
-    name: "{{ inventory_hostname }}"
+    name: "{{ inventory_hostname }}.{{ domain }}"
 
 - name: Set resolv.conf
   become: True
