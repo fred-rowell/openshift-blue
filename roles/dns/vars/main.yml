@@ -1,4 +1,4 @@
 ---
-ipa_server: ipa.cloudsalab.com
-ipa_server_ip: 192.168.76.11
+ipa_server: ipa.bcbssc-cds.com
+ipa_server_ip: 192.168.76.19
 ipa_pass: RedHat123!

@@ -1,17 +1,14 @@
 [masters]
-10.11.95.155    region=infra      zone=default
-
-[etcd]
-192.168.76.18   region=infra      zone=default
+blue-1   region=infra      zone=default
 
 [nodes]
-192.168.76.20   region=primary    zone=east      
+blue-2   region=primary    zone=east      
+blue-3   region=primary    zone=east
 
 [nfs]
-10.11.95.155
+blue-1
 
 # Uncomment if a new node is needed in the cluster
 # [newnodes]
-# 192.168.76.xx    region=primary    zone=east
-# 192.168.76.xx    region=primary    zone=east
+# blue-4    region=primary    zone=east
 
