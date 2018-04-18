@@ -3,6 +3,7 @@
 masters
 nodes
 nfs
+etcd
 
 # Set variables common for all OSEv3 hosts
 [OSEv3:vars]
@@ -89,6 +90,11 @@ openshift_{{ vol.name }}_storage_class='{{ vol.class }}'
 [nfs]
 {% for nfs in groups['nfs'] %}
 {{ nfs }}.{{ domain }}
+{% endfor %}
+
+[etcd]
+{% for etcd in groups['masters'] %}
+{{ etcd }}.{{ domain }}
 {% endfor %}
 
 # host group for nodes, includes region info
