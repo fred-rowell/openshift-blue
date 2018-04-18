@@ -4,7 +4,7 @@
   gather_facts: False
   remote_user: cloud-user
   vars:
-    control_machine: localhost
+    control_machine: tower
     ansible_ssh_common_args: -o StrictHostKeyChecking=no
     domain: cdsprivatecloud.com
     version: 3.9
