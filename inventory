@@ -6,7 +6,7 @@ ocp-node1   region=primary    zone=east
 ocp-node2   region=primary    zone=east
 
 [nfs]
-opc
+ocp
 
 # Uncomment if a new node is needed in the cluster
 # [newnodes]
