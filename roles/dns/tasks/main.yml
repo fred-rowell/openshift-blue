@@ -7,7 +7,7 @@
     zone_name: "{{ domain }}"
     record_name: "{{ inventory_hostname }}"
     record_type: "A"
-    record_value: "{{ ansible_default_ipv4.address }}"
+    record_value: "{{ ansible_host }}"
     validate_certs: False
   delegate_to: "{{ control_machine }}"
 
@@ -19,7 +19,7 @@
     zone_name: "{{ domain }}"
     record_name: "*.apps"
     record_type: "A"
-    record_value: "{{ ansible_default_ipv4.address }}"
+    record_value: "{{ ansible_host }}"
     validate_certs: False
   delegate_to: "{{ control_machine }}"
   when: inventory_hostname == groups['masters'][0]
