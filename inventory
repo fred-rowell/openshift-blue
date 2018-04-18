@@ -1,9 +1,9 @@
 [masters]
-ocp   region=infra      zone=default
+ocp   region=infra      zone=default     ansible_host=192.168.9.5
 
 [nodes]
-ocp-node1   region=primary    zone=east      
-ocp-node2   region=primary    zone=east
+ocp-node1   region=primary    zone=east      ansible_host=192.168.9.10
+ocp-node2   region=primary    zone=east      ansible_host=192.168.9.14
 
 [nfs]
 ocp
