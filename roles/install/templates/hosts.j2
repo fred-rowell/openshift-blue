@@ -2,7 +2,6 @@
 [OSEv3:children]
 masters
 nodes
-etcd
 nfs
 
 # Set variables common for all OSEv3 hosts
@@ -27,18 +26,9 @@ openshift_master_default_subdomain=apps.{{ hostvars[groups['masters'][0]]['inven
 # Disable Mem check for lab environments
 openshift_disable_check=memory_availability
 
-# Cockpit
-osm_use_cockpit=true
-osm_cockpit_plugins=['cockpit-kubernetes']
-
 # Enable cluster metrics
 openshift_metrics_install_metrics=true
-openshift_metrics_cassandra_storage_type=dynamic
 openshift_metrics_hawkular_hostname=hawkular.apps.{{ hostvars[groups['masters'][0]]['inventory_hostname'] }}.{{ domain }}
-openshift_metrics_image_version=v3.9.14
-openshift_metrics_hawkular_nodeselector={'region': 'infra'}
-openshift_metrics_cassandra_nodeselector={'region': 'infra'}
-openshift_metrics_heapster_nodeselector={'region': 'infra'}
 
 # Logging
 openshift_logging_install_logging=true
@@ -58,8 +48,15 @@ ansible_service_broker_local_registry_whitelist=['.*-apb$']
 # Default selectors
 openshift_hosted_router_selector='region=infra'
 openshift_hosted_registry_selector='region=infra'
+openshift_metrics_hawkular_nodeselector={'region': 'infra'}
+openshift_metrics_cassandra_nodeselector={'region': 'infra'}
+openshift_metrics_heapster_nodeselector={'region': 'infra'}
 osm_default_node_selector="region={{ hostvars[groups['nodes'][0]]['region'] }}"
+
+# Provide examples
 openshift_install_examples=true
+
+# Set insecure registry CIDR
 openshift_docker_insecure_registries=172.30.0.0/16
 
 # Htpasswd authentication
@@ -92,11 +89,6 @@ openshift_{{ vol.name }}_storage_class='{{ vol.class }}'
 [nfs]
 {% for nfs in groups['nfs'] %}
 {{ nfs }}.{{ domain }}
-{% endfor %}
-
-[etcd]
-{% for etcd in groups['etcd'] %}
-{{ etcd }}.{{ domain }}
 {% endfor %}
 
 # host group for nodes, includes region info

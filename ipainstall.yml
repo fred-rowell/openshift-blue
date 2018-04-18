@@ -1,0 +1,27 @@
+---
+- name: setup free-ipa
+  hosts: all
+  remote_user: cloud-user
+  become: True
+  vars:
+    ansible_ssh_common_args: -o StrictHostKeyChecking=no
+    # network_segment: 192.168.76
+    reverse_route_table: "76.168.192.in-addr.arpa."
+    ipa_realm: cdslabs.COM
+    ipa_domain: cdslabs.com
+    ipa_hostname: idm.cdslabs.com
+    ipa_admin_password: "RedHat123!"
+    ipa_dns_forwarder: "8.8.8.8" 
+  roles:
+    # Register with subscription manager
+    - { role: rhn }
+
+    # Install IPA
+    - { role: ipainstall } 
+
+    # Configure firewall
+    - { role: ipafirewall }
+
+    # Configure IPA
+    - { role: ipafwconfig }
+
