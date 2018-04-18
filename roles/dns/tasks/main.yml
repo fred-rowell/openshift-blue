@@ -1,4 +1,4 @@
-# ---
+---
 - name: Create DNS record 
   ipa_dnsrecord:
     ipa_host: "{{ ipa_server }}"
@@ -11,7 +11,7 @@
     validate_certs: False
   delegate_to: "{{ control_machine }}"
 
-# - name: Create DNS record for apps subdomain
+- name: Create DNS record for apps subdomain
   ipa_dnsrecord:
     ipa_host: "{{ ipa_server }}"
     ipa_pass: "{{ ipa_pass }}"
@@ -24,7 +24,7 @@
   delegate_to: "{{ control_machine }}"
   when: inventory_hostname == groups['masters'][0]
 
-# - name: Add the host
+- name: Add the host
   ipa_host:
     name: "{{ inventory_hostname }}.{{ domain }}"
     state: present
