@@ -19,7 +19,7 @@
     - { role: keys }    
 
     # # register with subscription manager
-    - { role: rhn }
+    # - { role: rhn }
 
     # # prepare all hosts for installation
     - { role: prepare } 
