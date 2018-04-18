@@ -6,7 +6,7 @@
   vars:
     control_machine: localhost
     ansible_ssh_common_args: -o StrictHostKeyChecking=no
-    domain: bcbssc-cds.com
+    domain: cdsprivatecloud.com
     version: 3.9
   roles:
     # provision volumes 
