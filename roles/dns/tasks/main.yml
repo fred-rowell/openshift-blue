@@ -39,6 +39,12 @@
     src: dhclient.conf.j2
     dest: /etc/dhcp/dhclient.conf
 
+- name: Insert DNS search order into network config
+  lineinfile:
+    path: /etc/sysconfig/network-scripts/ifcfg-eth0
+    regexp: '^SEARCH='
+    line: "SEARCH={{ domain }}"
+    
 - name: Set hostname
   become: true
   hostname:
